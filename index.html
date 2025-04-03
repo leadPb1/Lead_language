@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>납랭 인터프리터</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        textarea { width: 80%; height: 200px; }
+        button { padding: 10px; margin: 10px; cursor: pointer; }
+        #output { white-space: pre-wrap; background: #f4f4f4; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>납랭 인터프리터</h1>
+    <textarea id="code" placeholder="납랭 코드를 입력하세요..."></textarea><br>
+    <button onclick="runLeadLang()">실행</button>
+    <h2>출력 결과:</h2>
+    <div id="output"></div>
+
+    <script src="leadlang.js"></script>
+</body>
+</html>
