@@ -8,9 +8,10 @@ function runLeadLang() {
 
     let lines = code.split("\n"); // 코드 줄 단위로 나누기
     let mathEnabled = false; // 수학 기능 활성화 여부
+    let i = 0;
 
-    for (let line of lines) {
-        line = line.trim();
+    while (i < lines.length) {
+        let line = lines[i].trim();
 
         // 출력 기능 (leprint)
         if (line.startsWith("leprint(") && line.endsWith(")")) {
@@ -45,13 +46,33 @@ function runLeadLang() {
         // 반복문 (leapeat)
         else if (line.startsWith("leapeat (") && line.endsWith("):")) {
             let repeatCount = Number(line.slice(8, -2).trim());
-            let nextLine = lines[lines.indexOf(line) + 1]?.trim();
-            if (nextLine.startsWith("leprint(") && nextLine.endsWith(")")) {
-                let content = nextLine.slice(8, -1);
-                for (let i = 0; i < repeatCount; i++) {
-                    outputArea.innerHTML += content.replace(/"/g, '') + "<br>";
+            let loopLines = [];
+            i++;
+
+            // 반복문 내부 코드 수집
+            while (i < lines.length && lines[i].trim().startsWith("    ")) {
+                loopLines.push(lines[i].trim());
+                i++;
+            }
+
+            // 반복문 실행
+            for (let j = 0; j < repeatCount; j++) {
+                for (let loopLine of loopLines) {
+                    if (loopLine.startsWith("leprint(") && loopLine.endsWith(")")) {
+                        let content = loopLine.slice(8, -1);
+                        if (variables[content] !== undefined) {
+                            outputArea.innerHTML += variables[content] + "<br>";
+                        } else {
+                            outputArea.innerHTML += content.replace(/"/g, '') + "<br>";
+                        }
+                    }
                 }
             }
+
+            // 반복문 끝났으니 다음 줄부터 실행
+            continue;
         }
+
+        i++; // 다음 줄로 이동
     }
 }
